@@ -1,130 +1,157 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>電卓</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Calculator</title>
+    <meta charset="utf-8" />
+    <style>
+        /* Style the calculator container */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            
+            background-color: #000021;
+        }
+        .calculator {
+            width: "100%";
+            height: 400px;
+            padding: 10px;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        /* Style the calculator buttons */
+        .calculator button {
+            width: 70px;
+            height: 70px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            background-color: #3322f9;
+            color: #fff;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .calculator-out {
+            background-color: #7856ff;
+            display: flex;
+            width: 330px;
+            border-radius: 50px;
+            padding: 10px;
+            font-size: 24px;
+            font-weight: bold;
+            justify-content: center;
+        }
+
+        .calculator input {
+            height: 40px;
+            width: 300px;
+            font-size: 24px;
+            background-color: #7856ff;
+            color: #fff;
+            border: none;
+        }
+
+        /* Style the operator buttons */
+        .calculator .operator {
+            background-color: #7856ff;
+            color: white;
+        }
+
+        /* Style the equals button */
+        .calculator .equals {
+            background-color: #7856ff;
+            color: white;
+        }
+
+        .elements {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
 </head>
 
 <body>
     <div class="calculator">
-        <h1>HTML calc</h1>
-        <input type="text" id="display" disabled>
-        <div class="button-coiner">
-            <div class="buttons">
-                <button onclick="appendToDisplay('7')">7</button>
-                <button onclick="appendToDisplay('8')">8</button>
-                <button onclick="appendToDisplay('9')">9</button>
-                <button onclick="calculateResult()">=</button>
-                <button onclick="appendToDisplay('4')">4</button>
-                <button onclick="appendToDisplay('5')">5</button>
-                <button onclick="appendToDisplay('6')">6</button>
-                <button onclick="appendToDisplay('/')">÷</button>
-                <button onclick="appendToDisplay('1')">1</button>
-                <button onclick="appendToDisplay('2')">2</button>
-                <button onclick="appendToDisplay('3')">3</button>
-                <button onclick="appendToDisplay('*')">x</button>
-                <button onclick="clearDisplay()">C</button>
-                <button onclick="appendToDisplay('0')">0</button>
-                <button onclick="appendToDisplay('.')">.</button>
-                <button onclick="appendToDisplay('+')">+</button>
-                <div style="display: flex; justify-content: flex-end; width: 215px;">
-                    <button onclick="appendToDisplay('-')" style="width: 50px;">-</button>
-                </div>
+        <div class="elements">
+            <div class="calculator-out">
+                <input type="text" id="result" disabled />
             </div>
         </div>
-        <a href="https://github.com/nknighta/htmljs-calc/blob/master/index.html">Source Code</a>
-        <br/>
-        <a href="https://github.com/nknighta/">@nknighta 2023 </a>
-        <br/>
-        <a href="https://github.com/nknighta/htmljs-calc/blob/master/LICENSE">MIT lisense</a>
-        <br/>
-        <a href="https://twitter.com/ama_dev_1">My twitter</a>
+        <div class="elements">
+            <button onclick="clearResult()">C</button>
+            <button onclick="backspace()">←</button>
+        </div>
+        <div class="elements">
+            <button onclick="append('+')" class="operator">+</button>
+            <button onclick="append('7')">7</button>
+            <button onclick="append('8')">8</button>
+            <button onclick="append('9')">9</button>
+        </div>
+        <div class="elements">
+            <button onclick="append('-')" class="operator">-</button>
+            <button onclick="append('4')">4</button>
+            <button onclick="append('5')">5</button>
+            <button onclick="append('6')">6</button>
+        </div>
+        <div class="elements">
+
+            <button onclick="append('*')" class="operator">&times;</button>
+            <button onclick="append('1')">1</button>
+            <button onclick="append('2')">2</button>
+            <button onclick="append('3')">3</button>
+        </div>
+        <div class="elements">
+            <button onclick="append('/')" class="operator">&divide;</button>
+            <button onclick="append('0')">0</button>
+            <button onclick="append('.')">.</button>
+            <button onclick="calculate()" class="equals">=</button>
+        </div>
     </div>
-</body>
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        text-align: center;
-        margin: 0;
-        padding: 0;
-    }
 
-    .calculator {
-        margin-top: 100px;
-    }
+    <script>
+        // Get the result input element
+        const result = document.getElementById('result');
 
-    input[type="text"] {
-        width: 200px;
-        font-size: 24px;
-        padding: 5px;
-        text-align: right;
-    }
-
-    .button-coiner {
-        display: flex;
-        justify-content: center;
-        border-radius: 20px
-    }
-
-    .buttons {
-        display: grid;
-        grid-template-columns: repeat(4, 50px);
-        gap: 5px;
-        margin-top: 10px;
-    }
-
-    .button-light {
-        display: flex;
-        justify-content: flex-end;
-        background-color: red;
-        width: 100%;
-    }
-
-    .button-light button {
-        width: 50px;
-    }
-
-    button {
-        font-size: 24px;
-        padding: 10px;
-        cursor: pointer;
-    }
-
-    button:hover {
-        background-color: lightgray;
-    }
-</style>
-<script>
-    let displayValue = "";
-
-    function appendToDisplay(value) {
-        displayValue += value;
-        updateDisplay();
-    }
-
-    function updateDisplay() {
-        document.getElementById("display").value = displayValue;
-    }
-
-    function clearDisplay() {
-        displayValue = "";
-        updateDisplay();
-    }
-
-    function calculateResult() {
-        try {
-            const result = eval(displayValue);
-            displayValue = result.toString();
-            updateDisplay();
-        } catch (error) {
-            displayValue = "Error";
-            updateDisplay();
+        // Append a character to the result input
+        function append(char) {
+            result.value += char;
         }
-    }
 
-</script>
+        // Clear the result input
+        function clearResult() {
+            result.value = '';
+        }
+
+        // Remove the last character from the result input
+        function backspace() {
+            result.value = result.value.slice(0, -1);
+        }
+
+        // Calculate the result of the expression in the result input
+        function calculate() {
+            if (result.value == "undefined") {
+                result.value = '';
+            } else {
+                try {
+                    result.value = eval(result.value);
+                } catch (error) {
+                    result.value = "Error!";
+                    if (result.value == "Error!") {
+                        setTimeout(function() {
+                            result.value = '';
+                        }, 1000);
+                    }
+                }
+            }
+        }
+    </script>
+</body>
 
 </html>
